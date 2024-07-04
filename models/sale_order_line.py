@@ -28,5 +28,5 @@ class SaleOrderLine(models.Model):
 
     contract_id = fields.Many2one(
         'subscription.contracts',
-        string='Contracts',
+        string='Contrats',
         help='For adding Contracts in sale order line')

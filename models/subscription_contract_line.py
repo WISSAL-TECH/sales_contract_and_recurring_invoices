@@ -29,10 +29,10 @@ class SubscriptionContractLines(models.Model):
 
     subscription_contract_id = fields.Many2one(
         'subscription.contracts',
-        string='Subscription Contracts',
+        string='Contrat d\'abonnement',
         help='Subscription Contract Reference')
     product_id = fields.Many2one('product.product',
-                                 string='Products',
+                                 string='Produits',
                                  help='Products to be added in contract')
     currency_id = fields.Many2one(string='Currency',
                                   related='subscription_contract_id.currency_id',
@@ -41,13 +41,13 @@ class SubscriptionContractLines(models.Model):
     description = fields.Text(
         string="Description", compute='_compute_description', store=True,
         readonly=False, precompute=True, help='Product description')
-    qty_ordered = fields.Float(string="Quantity",
+    qty_ordered = fields.Float(string="Quantité",
                                digits='Product Unit of Measure', default=1.0,
                                help='Ordered Quantity')
-    product_uom_id = fields.Many2one('uom.uom', string='Unit of Measure',
+    product_uom_id = fields.Many2one('uom.uom', string='Unité de mésure',
                                      compute='_compute_product_uom', store=True,
                                      help='Unit of measure of product')
-    price_unit = fields.Float(string="Unit Price",
+    price_unit = fields.Float(string="Prix unitaire",
                               compute='_compute_price_unit',
                               digits='Product Price',
                               store=True, readonly=False, precompute=True,
@@ -55,7 +55,7 @@ class SubscriptionContractLines(models.Model):
     tax_ids = fields.Many2many(comodel_name='account.tax', string="Taxes",
                                context={'active_test': False},
                                help='Taxes to be added')
-    discount = fields.Float(string="Discount (%)", digits='Discount',
+    discount = fields.Float(string="Remise (%)", digits='Discount',
                             store=True, readonly=False, help='Discount in %')
     sub_total = fields.Monetary(
         string="Total", compute='_compute_amount', store=True, precompute=True,

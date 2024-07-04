@@ -8,7 +8,7 @@
         <field name="view_mode">tree,form</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
-                Create a new record!
+                Créer un nouvel enregistrement !
             </p>
         </field>
     </record>
@@ -27,46 +27,46 @@
                     <field name="state" widget='statusbar'
                            statusbar_visible='New,Ongoing,Expire Soon,Expired'/>
                     <button name="action_to_confirm" class="oe_highlight"
-                            string="Confirm" type="object"
+                            string="Confirmer" type="object"
                             help="Confirm your Subscription Contracts"
                             invisible="state != 'New'"/>
                     <button name="action_generate_invoice"
                             class="oe_highlight"
-                            string="Generate Invoice"
+                            string="Génerer une facture"
                             type="object"
                             invisible="state not in ('Ongoing','Expire Soon')"/>
-                            help="Generate Invoices for your Contracts"/>
+                    help="Generate Invoices for your Contracts"/>
                     <button name="action_lock" class="oe_highlight"
-                            string="Lock" type="object"
+                            string="Verrouiller" type="object"
                             help="Lock your Subscription Contracts"
                             invisible="lock or state != 'Ongoing'"
                     />
                     <button name="action_to_unlock" class="oe_highlight"
-                            string="Unlock" type="object"
+                            string="Déverrouiller" type="object"
                             help="Unlock your Subscription Contracts"
                             invisible="not lock or state != 'Ongoing'"
                     />
                     <button name="action_to_cancel" class="oe_highlight"
-                            string="Cancel" type="object"
+                            string="Annuler" type="object"
                             help="Cancel; your Subscription Contracts"
                             invisible="state not in ('Ongoing', 'Expire Soon')"
                     />
                 </header>
                 <sheet>
-                    <div class="oe_button_box" name="button_box"  invisible="not invoices_active">
+                    <div class="oe_button_box" name="button_box" invisible="not invoices_active">
                         <button class="oe_stat_button" type="object"
                                 name="action_get_invoice"
                                 icon="fa-pencil-square-o"
                                 invisible="state not in ('Ongoing', 'Expire Soon', 'Expired')"
-                                >
-                            <field string="Invoices"
+                        >
+                            <field string="Factures"
                                    name="invoice_count" widget="statinfo"
                             />
                         </button>
                     </div>
                     <div class="oe_title">
                         <h1>
-                            <field name="name" placeholder="Contracts"
+                            <field name="Nom" placeholder="Contracts"
                                    readonly="lock"/>
                         </h1>
                     </div>
@@ -111,11 +111,11 @@
                                 </group>
                             </h2>
                         </page>
-                        <page string="Sale Order Lines">
+                        <page string="Lignes de commande">
                             <field name="sale_order_line_ids"
                                    readonly="lock"/>
                         </page>
-                        <page string="Terms and Conditions">
+                        <page string="Termes et Conditions">
                             <field name="note"
                                    placeholder="Terms and Conditions"
                                    readonly="lock"/>

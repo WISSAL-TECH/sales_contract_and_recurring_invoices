@@ -26,5 +26,5 @@ class AccountMove(models.Model):
     """ Inheriting account move model to add id of subscription """
     _inherit = 'account.move'
 
-    contract_origin = fields.Integer(string='Subscription Contract',
-                                     help='Reference of Subscription Contract')
+    contract_origin = fields.Integer(string='Contrat d\'abonnement',
+                                     help='Reference de Contrat d\'abonnement')

@@ -30,70 +30,70 @@ class SubscriptionContracts(models.Model):
     _description = 'Subscription Contracts'
     _inherit = ['mail.thread', 'mail.activity.mixin']
 
-    name = fields.Char(string='Contract Name', required=True,
+    name = fields.Char(string='Nom de Contrat', required=True,
                        help='Name of Contract')
-    reference = fields.Char(string='Reference', help='Contract reference')
+    reference = fields.Char(string='Réference', help='Contract reference')
     partner_id = fields.Many2one('res.partner', string="Customer",
                                  help='Customer for this contract')
-    recurring_period = fields.Integer(string='Recurring Period',
+    recurring_period = fields.Integer(string='Période récurrente',
                                       help='Recurring period of '
                                            'subscription contract')
     recurring_period_interval = fields.Selection([
-        ('Days', 'Days'),
-        ('Weeks', 'Weeks'),
-        ('Months', 'Months'),
-        ('Years', 'Years'),
+        ('Days', 'Jours'),
+        ('Weeks', 'Semaine'),
+        ('Months', 'Mois'),
+        ('Years', 'Ans'),
     ], help='Recurring interval of subscription contract')
     contract_reminder = fields.Integer(
-        string='Contract Expiration Reminder (Days)',
+        string='Rappel d\'expiration du contrat (Jours)',
         help='Expiry reminder of subscription contract in days.')
     recurring_invoice = fields.Integer(
-        string='Recurring Invoice Interval (Days)',
+        string='Intervalle de facturation récurrente (Jours)',
         help='Recurring invoice interval in days')
-    next_invoice_date = fields.Date(string='Next Invoice Date', store=True,
+    next_invoice_date = fields.Date(string='Date de la prochaine facture', store=True,
                                     compute='_compute_next_invoice_date',
                                     help='Date of next invoice')
-    company_id = fields.Many2one('res.company', string='Company',
+    company_id = fields.Many2one('res.company', string='Société',
                                  default=lambda self: self.env.company)
     currency_id = fields.Many2one(
         'res.currency', string='Currency',
         required=True, default=lambda self: self.env.company.currency_id)
-    date_start = fields.Date(string='Start Date', default=fields.Date.today(),
+    date_start = fields.Date(string='Date de début', default=fields.Date.today(),
                              help='Subscription contract start date')
     invoice_count = fields.Integer(store=True,
                                    compute='_compute_invoice_count',
-                                   string='Invoice count',
+                                   string='Numero de facture',
                                    help='Number of invoices generated')
-    date_end = fields.Date(string='End Date', help='Subscription End Date')
+    date_end = fields.Date(string='Date de fin', help='Subscription End Date')
     current_reference = fields.Integer(compute='_compute_sale_order_lines',
-                                       string='Current Subscription Id',
+                                       string='Identifiant de l\'abonnement actuel',
                                        help='Current Subscription id')
-    lock = fields.Boolean(string='Lock', default=False,
+    lock = fields.Boolean(string='verrouiller', default=False,
                           help='Lock subscription contract so that further'
                                ' modifications are not possible.')
     state = fields.Selection([
-        ('New', 'New'),
-        ('Ongoing', 'Ongoing'),
-        ('Expire Soon', 'Expire Soon'),
-        ('Expired', 'Expired'),
-        ('Cancelled', 'Cancelled'),
+        ('New', 'Nouveau'),
+        ('Ongoing', 'En cours'),
+        ('Expire Soon', 'Expire bientôt'),
+        ('Expired', 'Expiré'),
+        ('Cancelled', 'Annulé'),
     ], string='Stage', default='New', copy=False, tracking=True,
         readonly=True, help='Status of subscription contract')
     contract_line_ids = fields.One2many(
         'subscription.contracts.line',
         'subscription_contract_id',
-        string='Contract lines', help='Products to be added in the contract')
+        string='Lignes', help='Products to be added in the contract')
     amount_total = fields.Monetary(string="Total", store=True,
                                    compute='_compute_amount_total', tracking=4,
                                    help='Total amount')
     sale_order_line_ids = fields.One2many(
         'sale.order.line', 'contract_id',
-        string='Sale Order Lines',
+        string='Lignes de commande',
         help='Order lines of Sale Orders which belongs to this contract')
-    note = fields.Html(string="Terms and conditions",
+    note = fields.Html(string="Termes et conditions",
                        help='Add any notes', translate=True)
     invoices_active = fields.Boolean(
-        'Invoice active', default=False,
+        'Facture active', default=False,
         compute='_compute_invoice_active',
         help='Compute invoices are active or not')
 
