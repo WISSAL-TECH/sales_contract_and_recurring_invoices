@@ -35,9 +35,13 @@ class SubscriptionContracts(models.Model):
     reference = fields.Char(string='Réference', help='Contract reference')
     partner_id = fields.Many2one('res.partner', string="Customer",
                                  help='Customer for this contract')
-    recurring_period = fields.Integer(string='Période récurrente',
-                                      help='Recurring period of '
-                                           'subscription contract')
+    recurring_period = fields.Selection([
+        ('12', '12'),
+        ('18', '18'),
+        ('24', '24'),
+    ], string='Période récurrente',
+        help='Recurring period of '
+             'subscription contract')
     recurring_period_interval = fields.Selection([
         ('Days', 'Jours'),
         ('Weeks', 'Semaine'),
@@ -176,7 +180,7 @@ class SubscriptionContracts(models.Model):
         self.next_invoice_date = fields.Date.today()
         start_date = self.date_start
         interval = self.recurring_invoice
-        recurring_period = self.recurring_period
+        recurring_period = int(self.recurring_period or 0)
         recurring_period_interval = self.recurring_period_interval
         self.next_invoice_date = date_utils.add(start_date,
                                                 days=int(interval))
