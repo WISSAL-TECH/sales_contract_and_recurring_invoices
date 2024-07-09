@@ -36,6 +36,7 @@ class SubscriptionContracts(models.Model):
         ('convention', 'Convention'),
         ('facilite', 'Facilité'),
     ],string='Type de contrat')
+
     partner_id = fields.Many2one('res.partner', string="Customer",
                                  help='Customer for this contract')
     recurring_period = fields.Selection([

@@ -80,8 +80,6 @@
                                    readonly="lock"/>
                             <field name="recurring_period_interval"
                                    readonly="lock"/>
-                            <field name="recurring_invoice"
-                                   readonly="lock"/>
                             <field name="next_invoice_date"
                                    readonly="lock"/>
                             <field name="current_reference" invisible="1"/>
