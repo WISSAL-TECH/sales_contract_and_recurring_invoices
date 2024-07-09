@@ -32,7 +32,7 @@ class SubscriptionContracts(models.Model):
 
     name = fields.Char(string='Nom de Contrat', required=True,
                        help='Name of Contract')
-    Type = fields.Selection([
+    type = fields.Selection([
         ('convention', 'Convention'),
         ('facilite', 'Facilité'),
     ],string='Type de contrat')
