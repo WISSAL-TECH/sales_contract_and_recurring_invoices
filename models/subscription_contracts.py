@@ -32,7 +32,10 @@ class SubscriptionContracts(models.Model):
 
     name = fields.Char(string='Nom de Contrat', required=True,
                        help='Name of Contract')
-    reference = fields.Char(string='Réference', help='Contract reference')
+    Type = fields.Selection([
+        ('convention', 'Convention'),
+        ('facilite', 'Facilité'),
+    ],string='Type de contrat')
     partner_id = fields.Many2one('res.partner', string="Customer",
                                  help='Customer for this contract')
     recurring_period = fields.Selection([
@@ -47,7 +50,7 @@ class SubscriptionContracts(models.Model):
         ('Weeks', 'Semaine'),
         ('Months', 'Mois'),
         ('Years', 'Ans'),
-    ], help='Recurring interval of subscription contract')
+    ],default="Months", help='Recurring interval of subscription contract')
     contract_reminder = fields.Integer(
         string='Rappel d\'expiration du contrat (Jours)',
         help='Expiry reminder of subscription contract in days.')
