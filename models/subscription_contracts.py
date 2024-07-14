@@ -54,11 +54,11 @@ class SubscriptionContracts(models.Model):
             total_margin = 0.0
             for line in contract.contract_line_ids:
                 if contract.recurring_period == '12':
-                    total_margin += line.price_unit * (1 + contract.marge_12 / 100)
+                    total_margin += line.price_unit * (1 + contract.company_id.marge_12 / 100)
                 elif contract.recurring_period == '18':
-                    total_margin += line.price_unit * (1 + contract.marge_18 / 100)
+                    total_margin += line.price_unit * (1 + contract.company_id.marge_18 / 100)
                 elif contract.recurring_period == '24':
-                    total_margin += line.price_unit * (1 + contract.marge_24 / 100)
+                    total_margin += line.price_unit * (1 + contract.company_id.marge_24 / 100)
             contract.total_margin = total_margin
 
     recurring_period_interval = fields.Selection([
@@ -78,9 +78,6 @@ class SubscriptionContracts(models.Model):
                                     help='Date of next invoice')
     company_id = fields.Many2one('res.company', string='Société',
                                  default=lambda self: self.env.company)
-    marge_12 = fields.Float(string='Marge sur facilité 18 mois', related="company_id.marge12")
-    marge_18 = fields.Float("Marge sur facilité 18 mois", related="company_id.marge18")
-    marge_24 = fields.Float("Marge sur facilité 24 mois", related="company_id.marge24")
 
     currency_id = fields.Many2one(
         'res.currency', string='Currency',
