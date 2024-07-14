@@ -124,7 +124,6 @@ class SubscriptionContracts(models.Model):
                 'partner_id': self.partner_id.id,
                 'invoice_date': fields.date.today(),
                 'contract_origin': self.id,
-                'amount_total_signed': self.amount_total,
                 'invoice_line_ids': [(0, 0, {
                     'product_id': line.product_id.id,
                     'name': line.description,
@@ -161,15 +160,19 @@ class SubscriptionContracts(models.Model):
         """ Compute total amount of Contract """
         for order in self:
             order_lines = order.contract_line_ids
-            amount_total = sum(order_lines.mapped('sub_total'))
-            total_margin = 0.0
-            if order.recurring_period == '12':
-                total_margin += amount_total * (1 + order.company_id.marge_12 / 100)
-            elif order.recurring_period == '18':
-                total_margin += amount_total * (1 + order.company_id.marge_18 / 100)
-            elif order.recurring_period == '24':
-                total_margin += amount_total * (1 + order.company_id.marge_24 / 100)
-            order.amount_total = total_margin
+            order.amount_total = sum(order_lines.mapped('sub_total'))
+
+    def apply_discount_on_lines(self):
+        for order in self:
+            if order.recurring_period == '12' and self.company_id.marge_12:
+                for line in order.contract_line_ids:
+                    line.discount = self.company_id.marge_12
+            if order.recurring_period == '18' and self.company_id.marge_18:
+                for line in order.contract_line_ids:
+                    line.discount = self.company_id.marge_18
+            if order.recurring_period == '24' and self.company_id.marge_24:
+                for line in order.contract_line_ids:
+                    line.discount = self.company_id.marge_24
 
     @api.depends('partner_id')
     def _compute_invoice_count(self):
