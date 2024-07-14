@@ -47,18 +47,6 @@ class SubscriptionContracts(models.Model):
         help='Recurring period of '
              'subscription contract')
     total_margin = fields.Float(string='Total Margin', compute='_compute_total_margin')
-    @api.depends('contract_line_ids.price_unit', 'recurring_period', 'company_id')
-    def _compute_total_margin(self):
-        for contract in self:
-            total_margin = 0.0
-            for line in contract.contract_line_ids:
-                if contract.recurring_period == '12':
-                    total_margin += line.price_unit * (1 + contract.company_id.marge_12 / 100)
-                elif contract.recurring_period == '18':
-                    total_margin += line.price_unit * (1 + contract.company_id.marge_18 / 100)
-                elif contract.recurring_period == '24':
-                    total_margin += line.price_unit * (1 + contract.company_id.marge_24 / 100)
-            contract.total_margin = total_margin
 
     recurring_period_interval = fields.Selection([
         ('Days', 'Jours'),
@@ -172,7 +160,15 @@ class SubscriptionContracts(models.Model):
         """ Compute total amount of Contract """
         for order in self:
             order_lines = order.contract_line_ids
-            order.amount_total = sum(order_lines.mapped('sub_total'))
+            amount_total = sum(order_lines.mapped('sub_total'))
+            total_margin = 0.0
+            if order.recurring_period == '12':
+                total_margin += amount_total * (1 + order.company_id.marge_12 / 100)
+            elif order.recurring_period == '18':
+                total_margin += amount_total * (1 + order.company_id.marge_18 / 100)
+            elif order.recurring_period == '24':
+                total_margin += amount_total * (1 + order.company_id.marge_24 / 100)
+            order.amount_total = total_margin
 
     @api.depends('partner_id')
     def _compute_invoice_count(self):
