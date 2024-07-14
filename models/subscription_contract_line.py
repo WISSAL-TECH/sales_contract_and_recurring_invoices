@@ -47,11 +47,26 @@ class SubscriptionContractLines(models.Model):
     product_uom_id = fields.Many2one('uom.uom', string='Unité de mésure',
                                      compute='_compute_product_uom', store=True,
                                      help='Unit of measure of product')
+    base_price_unit = fields.Float(string='Base Unit Price')
     price_unit = fields.Float(string="Prix unitaire",
                               compute='_compute_price_unit',
                               digits='Product Price',
                               store=True, readonly=False, precompute=True,
                               help='Unit price of product')
+
+    @api.depends('base_price_unit', 'subscription_contract_id.recurring_period', 'subscription_contract_id.company_id')
+    def _compute_price_unit(self):
+        for line in self:
+            contract = line.subscription_contract_id
+            if contract.recurring_period == '12':
+                line.price_unit = line.base_price_unit * (1 + contract.company_id.marge_12 / 100)
+            elif contract.recurring_period == '18':
+                line.price_unit = line.base_price_unit * (1 + contract.company_id.marge_18 / 100)
+            elif contract.recurring_period == '24':
+                line.price_unit = line.base_price_unit * (1 + contract.company_id.marge_24 / 100)
+            else:
+                line.price_unit = line.base_price_unit
+
     tax_ids = fields.Many2many(comodel_name='account.tax', string="Taxes",
                                context={'active_test': False},
                                help='Taxes to be added')
