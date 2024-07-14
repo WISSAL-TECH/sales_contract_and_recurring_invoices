@@ -124,6 +124,7 @@ class SubscriptionContracts(models.Model):
                 'partner_id': self.partner_id.id,
                 'invoice_date': fields.date.today(),
                 'contract_origin': self.id,
+                'price_total': self.amount_total,
                 'invoice_line_ids': [(0, 0, {
                     'product_id': line.product_id.id,
                     'name': line.description,
