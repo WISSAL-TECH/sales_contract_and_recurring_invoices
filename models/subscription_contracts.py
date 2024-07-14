@@ -166,13 +166,13 @@ class SubscriptionContracts(models.Model):
         for order in self:
             if order.recurring_period == '12' and self.company_id.marge_12:
                 for line in order.contract_line_ids:
-                    line.discount = self.company_id.marge_12
+                    line.discount = -self.company_id.marge_12
             if order.recurring_period == '18' and self.company_id.marge_18:
                 for line in order.contract_line_ids:
-                    line.discount = self.company_id.marge_18
+                    line.discount = -self.company_id.marge_18
             if order.recurring_period == '24' and self.company_id.marge_24:
                 for line in order.contract_line_ids:
-                    line.discount = self.company_id.marge_24
+                    line.discount = -self.company_id.marge_24
 
     @api.depends('partner_id')
     def _compute_invoice_count(self):

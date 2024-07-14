@@ -31,7 +31,7 @@
                             help="Confirm your Subscription Contracts"
                             invisible="state != 'New'"/>
                     <button name="apply_discount_on_lines" class="oe_highlight"
-                            string="Appliquer la remise de facilité" type="object"
+                            string="Appliquer la marge de facilité" type="object"
                             help="Confirm your Subscription Contracts"
                             />
                     <button name="action_generate_invoice"
