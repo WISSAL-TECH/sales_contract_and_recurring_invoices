@@ -47,7 +47,7 @@ class SubscriptionContracts(models.Model):
         help='Recurring period of '
              'subscription contract')
     total_margin = fields.Float(string='Total Margin', compute='_compute_total_margin')
-    @api.depends('contract_line_ids.price_unit', 'recurring_period', 'marge_12', 'marge_18', 'marge_24')
+    @api.depends('contract_line_ids.price_unit', 'recurring_period', 'contract_id')
     def _compute_total_margin(self):
         for contract in self:
             total_margin = 0.0
