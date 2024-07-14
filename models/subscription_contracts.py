@@ -30,7 +30,7 @@ class SubscriptionContracts(models.Model):
     _description = 'Subscription Contracts'
     _inherit = ['mail.thread', 'mail.activity.mixin']
 
-    name = fields.Char(string='Nom de Contrat', required=True,
+    name = fields.Char(string='Nom de Contrat',default="/",
                        help='Name of Contract')
     type = fields.Selection([
         ('convention', 'Convention'),
@@ -275,3 +275,15 @@ class SubscriptionContracts(models.Model):
                     rec.create_date) <= self.date_end:
                 if rec.product_id in product_id:
                     rec.contract_id = self.id
+
+
+    @api.model
+    def create(self, vals):
+        
+        if vals.get('name', '/') == '/':
+            vals['name'] = self.env['ir.sequence'].next_by_code('sequence_subscription_contracts') or '/'
+
+
+        res = super(SubscriptionContracts, self).create(vals)
+
+        return res

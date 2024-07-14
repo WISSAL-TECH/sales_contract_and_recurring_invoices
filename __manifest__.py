@@ -35,6 +35,7 @@
         'security/subscription_contracts_security.xml',
         'security/ir.model.access.csv',
         'data/ir_cron_data.xml',
+        'data/sequence.xml',
         'report/subscription_contract_reports.xml',
         'views/subscription_contracts_views.xml',
         'views/account_move_views.xml',
