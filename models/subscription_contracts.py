@@ -118,23 +118,22 @@ class SubscriptionContracts(models.Model):
 
     def action_generate_invoice(self):
         """ Generate invoice """
-        self.env['account.move'].create(
+        self.env['sale.order'].create(
             {
-                'move_type': 'out_invoice',
                 'partner_id': self.partner_id.id,
-                'invoice_date': fields.date.today(),
                 'contract_origin': self.id,
-                'invoice_line_ids': [(0, 0, {
+                'order_line': [(0, 0, {
                     'product_id': line.product_id.id,
                     'name': line.description,
-                    'quantity': line.qty_ordered,
+                    'product_uom_qty': line.qty_ordered,
                     'price_unit': line.price_unit,
-                    'tax_ids': line.tax_ids,
+                    'tax_id': line.tax_ids,
                     'discount': line.discount,
                 }) for line in self.contract_line_ids]
             })
-        self.invoice_count = self.env['account.move'].search_count([
+        self.invoice_count = self.env['sale.order'].search_count([
             ('contract_origin', '=', self.id)])
+
 
     def action_lock(self):
         """ Lock subscription contract """
@@ -151,7 +150,7 @@ class SubscriptionContracts(models.Model):
             'type': 'ir.actions.act_window',
             'name': 'Invoices',
             'view_mode': 'tree,form',
-            'res_model': 'account.move',
+            'res_model': 'sale.order',
             'domain': [('contract_origin', '=', self.id)],
         }
 
@@ -184,7 +183,7 @@ class SubscriptionContracts(models.Model):
     @api.depends('invoices_active')
     def _compute_invoice_active(self):
         """ Check invoice count to display the invoice smart button """
-        invoice_count = self.env['account.move'].search_count([
+        invoice_count = self.env['sale.order'].search_count([
             ('contract_origin', '=', self.id)
         ])
         if invoice_count != 0:

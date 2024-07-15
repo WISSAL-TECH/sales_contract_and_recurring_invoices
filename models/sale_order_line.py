@@ -30,3 +30,10 @@ class SaleOrderLine(models.Model):
         'subscription.contracts',
         string='Contrats',
         help='For adding Contracts in sale order line')
+class SaleOrder(models.Model):
+    """ Add contract reference in sale order line """
+    _inherit = 'sale.order'
+
+    contract_origin = fields.Integer(string='Contrat d\'abonnement',
+                                     help='Reference de Contrat d\'abonnement')
+

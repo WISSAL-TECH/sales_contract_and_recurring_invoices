@@ -33,10 +33,10 @@
                     <button name="apply_discount_on_lines" class="oe_highlight"
                             string="Appliquer la marge de facilité" type="object"
                             help="Confirm your Subscription Contracts"
-                            />
+                    />
                     <button name="action_generate_invoice"
                             class="oe_highlight"
-                            string="Génerer une facture"
+                            string="Génerer un Bon de commande"
                             type="object"
                             invisible="state not in ('Ongoing','Expire Soon')"/>
                     help="Generate Invoices for your Contracts"/>
@@ -63,7 +63,7 @@
                                 icon="fa-pencil-square-o"
                                 invisible="state not in ('Ongoing', 'Expire Soon', 'Expired')"
                         >
-                            <field string="Factures"
+                            <field string="Bon de commande"
                                    name="invoice_count" widget="statinfo"
                             />
                         </button>
@@ -77,7 +77,7 @@
                         <group>
                             <field name="type"
                                    readonly="lock"/>
-                            <field name="partner_id" 
+                            <field name="partner_id"
                                    readonly="lock"/>
                             <field name="recurring_period"
                                    readonly="lock"/>
